@@ -21,6 +21,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true}));
 //parse incoming JSON data
 app.use(express.json());
+// allows live server to use CSS and javscript assets (anything in the public folder)
+app.use(express.static('public'));
 
 function filterByQuery(query, animalsArray) {
     // for handling searching info stored in an array
@@ -149,6 +151,21 @@ app.post('/api/animals', (req, res) => {
 
         res.json(animal);
     }
+});
+
+app.get('/', (req, res) => {
+    // route between index.html and server.js
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+    // route between animals.html and server.js
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    // route between zookeepers.html and server.js
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
 });
 
 // method to make server listen (traditionally at the very end of your script)
